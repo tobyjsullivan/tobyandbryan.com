@@ -180,7 +180,7 @@ resource "aws_route53_record" "feeds" {
 
 resource "aws_route53_record" "podcasts" {
   zone_id = "${aws_route53_zone.primary.zone_id}"
-  name    = "feeds.tobyandbryan.com"
+  name    = "podcasts.tobyandbryan.com"
   type    = "A"
 
   alias {
@@ -194,6 +194,7 @@ resource "aws_route53_record" "google_verification" {
   zone_id = "${aws_route53_zone.primary.zone_id}"
   name    = "tobyandbryan.com"
   type    = "TXT"
+  ttl     = "300"
   records = ["google-site-verification=LTf9qQWyQEMJHCvFk22wffx1NcEv8ZwkpzGK8DSGgzE"]
 }
 
@@ -201,6 +202,7 @@ resource "aws_route53_record" "soa" {
   zone_id = "${aws_route53_zone.primary.zone_id}"
   name    = "tobyandbryan.com"
   type    = "SOA"
+  ttl     = "300"
   records = ["ns-1904.awsdns-46.co.uk. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"]
 }
 
@@ -208,6 +210,7 @@ resource "aws_route53_record" "ns" {
   zone_id = "${aws_route53_zone.primary.zone_id}"
   name    = "tobyandbryan.com"
   type    = "NS"
+  ttl     = "300"
   records = [
     "ns-1904.awsdns-46.co.uk.",
     "ns-758.awsdns-30.net.",
@@ -220,6 +223,7 @@ resource "aws_route53_record" "mx" {
   zone_id = "${aws_route53_zone.primary.zone_id}"
   name    = "tobyandbryan.com"
   type    = "MX"
+  ttl     = "300"
   records = [
     "10 ASPMX.L.GOOGLE.COM.",
     "20 ALT1.ASPMX.L.GOOGLE.COM.",
@@ -229,3 +233,18 @@ resource "aws_route53_record" "mx" {
   ]
 }
 
+output "ns_1" {
+  value = "${aws_route53_zone.primary.name_servers.0}"
+}
+
+output "ns_2" {
+  value = "${aws_route53_zone.primary.name_servers.1}"
+}
+
+output "ns_3" {
+  value = "${aws_route53_zone.primary.name_servers.2}"
+}
+
+output "ns_4" {
+  value = "${aws_route53_zone.primary.name_servers.3}"
+}
