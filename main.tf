@@ -12,7 +12,6 @@ provider "aws" {
 
 resource "aws_s3_bucket" "assets" {
   bucket = "assets.tobyandbryan.com"
-  acl = "public-read"
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -21,7 +20,7 @@ resource "aws_s3_bucket" "assets" {
             "Effect": "Allow",
             "Principal": "*",
             "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::assets.tobyandbryan.com/*"
+            "Resource": ["arn:aws:s3:::assets.tobyandbryan.com/*"]
         }
     ]
 }
@@ -33,7 +32,6 @@ EOF
 
 resource "aws_s3_bucket" "feeds" {
   bucket = "feeds.tobyandbryan.com"
-  acl = "public-read"
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -42,7 +40,7 @@ resource "aws_s3_bucket" "feeds" {
             "Effect": "Allow",
             "Principal": "*",
             "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::feeds.tobyandbryan.com/*"
+            "Resource": ["arn:aws:s3:::feeds.tobyandbryan.com/*"]
         }
     ]
 }
@@ -54,7 +52,6 @@ EOF
 
 resource "aws_s3_bucket" "podcasts" {
   bucket = "podcasts.tobyandbryan.com"
-  acl = "public-read"
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -63,7 +60,7 @@ resource "aws_s3_bucket" "podcasts" {
             "Effect": "Allow",
             "Principal": "*",
             "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::podcasts.tobyandbryan.com/*"
+            "Resource": ["arn:aws:s3:::podcasts.tobyandbryan.com/*"]
         }
     ]
 }
@@ -172,7 +169,7 @@ resource "aws_route53_record" "feeds" {
   type    = "A"
 
   alias {
-    name = "${aws_s3_bucket.feeds.website_endpoint}"
+    name = "${aws_s3_bucket.feeds.website_domain}"
     zone_id = "${aws_s3_bucket.feeds.hosted_zone_id}"
     evaluate_target_health = true
   }
@@ -184,7 +181,7 @@ resource "aws_route53_record" "podcasts" {
   type    = "A"
 
   alias {
-    name = "${aws_s3_bucket.podcasts.website_endpoint}"
+    name = "${aws_s3_bucket.podcasts.website_domain}"
     zone_id = "${aws_s3_bucket.podcasts.hosted_zone_id}"
     evaluate_target_health = true
   }
